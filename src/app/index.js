@@ -32,15 +32,12 @@ render(<App/> , window.document.getElementById('reactReduxApp'));*/
 /*Store, State and Dispatching of Action.
 We first create a store, we then tell the store who is responsible for changing the state 
 (the reducer), and then we dispatch actions on the store.*/
-import {createStore} from "redux";
-
-const initialState = {
+import {createStore, combineReducers} from "redux";
+ 
+const mathReducer = (state = {
 	result : 1,
-	lastValues : [],
-	username : "Max"
-};
-
-const reducer = (state = initialState, action) => {
+	lastValues : []
+}, action) => {
 	switch(action.type){
 		case "ADD" :
 			state = {
@@ -62,7 +59,30 @@ const reducer = (state = initialState, action) => {
 	}
 	return state;
 };
-const store = createStore(reducer); // takes 2 arguments- reducer and initial app state
+
+// Multiple reducers and multiple states one per reducer
+const userReducer = (state = {
+	name : "Max",
+	age : 27
+}, action) => {
+	switch(action.type){
+		case "SET_NAME" :
+			state = {
+				...state, // spread operator: returns the property of older property
+				name : action.payload
+			};
+			break;
+		case "SET_AGE" : 
+			state = {
+				...state, // spread operator: returns the property of older property
+				age : action.payload
+			};			 
+			break;
+	}
+	return state;
+};
+
+const store = createStore(combineReducers({mathReducer, userReducer})); // takes 2 arguments- reducer and initial app state
 
 store.subscribe(() => {
 	console.log("Store updated!", store.getState());	
@@ -82,4 +102,8 @@ store.dispatch({
 store.dispatch({
 	type: "SUBTRACT",
 	payload: 80	
+});
+store.dispatch({
+	type: "SET_AGE",
+	payload: 30
 });
