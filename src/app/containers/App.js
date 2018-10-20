@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {User} from "../components/User";
 import {Main} from "../components/Main";
+import {setName} from "../actions/userActions"
 
 /*1. container folder contains smart components, which has are connected to Redux, they don't 
 know about state.
@@ -29,10 +30,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		setName: (name) => {
-			dispatch({
+			dispatch(setName(name));
+			/*dispatch({
 				type : "SET_NAME",
 				payload: name
-			});
+			});*/
 		}		
 	};
 };

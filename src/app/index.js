@@ -35,12 +35,14 @@ We first create a store, we then tell the store who is responsible for changing 
 
 import React from "react";
 import {render} from "react-dom";
-import {createStore, combineReducers, applyMiddleware} from "redux";
-import logger from "redux-logger";
 import {Provider} from "react-redux";
 import App from "./containers/App";
+import store from "./store";
+/*import {createStore, combineReducers, applyMiddleware} from "redux";
+import logger from "redux-logger";*/
+
  
-const mathReducer = (state = {
+/*const mathReducer = (state = {
 	result : 1,
 	lastValues : []
 }, action) => {
@@ -66,10 +68,10 @@ const mathReducer = (state = {
 			break;
 	}
 	return state;
-};
+};*/
 
 // Multiple reducers and multiple states one per reducer
-const userReducer = (state = {
+/*const userReducer = (state = {
 	name : "Max",
 	age : 27
 }, action) => {
@@ -88,22 +90,22 @@ const userReducer = (state = {
 			break;
 	}
 	return state;
-};
+};*/
 
 //const store = createStore(combineReducers({mathReducer, userReducer})); 
 // takes 2 arguments- reducer and initial app state
 
-const myLogger = (store) => (next) => (action) => {
+/*const myLogger = (store) => (next) => (action) => {
 	console.log("Logged Action: ", action);
 	next(action); // very important to have
-};
+};*/
 
-const store = createStore(combineReducers({math : mathReducer, user: userReducer}), {}, 
-	applyMiddleware(myLogger, logger)); // applying middleware, middleware chaining
+/*const store = createStore(combineReducers({math : mathReducer, user: userReducer}), {}, 
+	applyMiddleware(myLogger, logger)); // applying middleware, middleware chaining*/
 
-store.subscribe(() => {
+/*store.subscribe(() => {
 	console.log("Store updated!", store.getState());	
-});
+});*/
 render(
 	<Provider store={store}>
 		<App/> 	
