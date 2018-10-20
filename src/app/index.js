@@ -32,7 +32,8 @@ render(<App/> , window.document.getElementById('reactReduxApp'));*/
 /*Store, State and Dispatching of Action.
 We first create a store, we then tell the store who is responsible for changing the state 
 (the reducer), and then we dispatch actions on the store.*/
-import {createStore, combineReducers} from "redux";
+import {createStore, combineReducers, applyMiddleware} from "redux";
+import logger from "redux-logger";
  
 const mathReducer = (state = {
 	result : 1,
@@ -42,7 +43,8 @@ const mathReducer = (state = {
 		case "ADD" :
 			state = {
 				...state, // spread operator: returns the property of older property
-				result : state.result + action.payload, // overrides the actualy result value obtained
+				result : state.result + action.payload, // overrides the actualy result value 
+				//obtained
 				lastValues : [...state.lastValues, action.payload]
 			};	
 			// state.lastValues.push(action.payload); // mutable way. Wrong to do this way.
@@ -50,7 +52,8 @@ const mathReducer = (state = {
 		case "SUBTRACT" : 
 			state = {
 				...state, // spread operator: returns the property of older property
-				result : state.result - action.payload, // overrides the actualy result value obtained
+				result : state.result - action.payload, // overrides the actualy result value 
+				//obtained
 				lastValues : [...state.lastValues, action.payload]
 			};
 			// state.lastValues.push(action.payload); // mutable way. Wrong to do this way.
@@ -82,7 +85,16 @@ const userReducer = (state = {
 	return state;
 };
 
-const store = createStore(combineReducers({mathReducer, userReducer})); // takes 2 arguments- reducer and initial app state
+//const store = createStore(combineReducers({mathReducer, userReducer})); 
+// takes 2 arguments- reducer and initial app state
+
+const myLogger = (store) => (next) => (action) => {
+	console.log("Logged Action: ", action);
+	next(action); // very important to have
+};
+
+const store = createStore(combineReducers({mathReducer, userReducer}), {}, 
+	applyMiddleware(myLogger, logger)); // applying middleware, middleware chaining
 
 store.subscribe(() => {
 	console.log("Store updated!", store.getState());	
