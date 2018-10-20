@@ -34,18 +34,35 @@ We first create a store, we then tell the store who is responsible for changing 
 (the reducer), and then we dispatch actions on the store.*/
 import {createStore} from "redux";
 
-const reducer = (state, action) => {
+const initialState = {
+	result : 1,
+	lastValues : [],
+	username : "Max"
+};
+
+const reducer = (state = initialState, action) => {
 	switch(action.type){
 		case "ADD" :
-			state = state+action.payload;			 
+			state = {
+				...state, // spread operator: returns the property of older property
+				result : state.result + action.payload, // overrides the actualy result value obtained
+				lastValues : [...state.lastValues, action.payload]
+			};	
+			// state.lastValues.push(action.payload); // mutable way. Wrong to do this way.
 			break;
 		case "SUBTRACT" : 
-			state = state-action.payload;
+			state = {
+				...state, // spread operator: returns the property of older property
+				result : state.result - action.payload, // overrides the actualy result value obtained
+				lastValues : [...state.lastValues, action.payload]
+			};
+			// state.lastValues.push(action.payload); // mutable way. Wrong to do this way.
+			lastValues : [...state.lastValues, action.payload]
 			break;
 	}
 	return state;
 };
-const store = createStore(reducer,1); // takes 2 arguments- reducer and initial app state
+const store = createStore(reducer); // takes 2 arguments- reducer and initial app state
 
 store.subscribe(() => {
 	console.log("Store updated!", store.getState());	
