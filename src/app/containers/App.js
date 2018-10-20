@@ -1,7 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
-import {User} from "./User";
-import {Main} from "./Main";
+import {User} from "../components/User";
+import {Main} from "../components/Main";
+
+/*1. container folder contains smart components, which has are connected to Redux, they don't 
+know about state.
+2. components folder contains dumb components(stateless components), which are not directly connected to Redux.
+They don't know about state.*/
 
 class App extends React.Component {
 	
