@@ -32,8 +32,13 @@ render(<App/> , window.document.getElementById('reactReduxApp'));*/
 /*Store, State and Dispatching of Action.
 We first create a store, we then tell the store who is responsible for changing the state 
 (the reducer), and then we dispatch actions on the store.*/
+
+import React from "react";
+import {render} from "react-dom";
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import logger from "redux-logger";
+import {Provider} from "react-redux";
+import App from "./components/App";
  
 const mathReducer = (state = {
 	result : 1,
@@ -93,15 +98,21 @@ const myLogger = (store) => (next) => (action) => {
 	next(action); // very important to have
 };
 
-const store = createStore(combineReducers({mathReducer, userReducer}), {}, 
+const store = createStore(combineReducers({math : mathReducer, user: userReducer}), {}, 
 	applyMiddleware(myLogger, logger)); // applying middleware, middleware chaining
 
 store.subscribe(() => {
 	console.log("Store updated!", store.getState());	
 });
+render(
+	<Provider store={store}>
+		<App/> 	
+	</Provider>  , 
+	window.document.getElementById('reactReduxApp')
+);
 
 // dispatching action now. The dispatch function is taking an Action as argument
-store.dispatch({
+/*store.dispatch({
 	type: "ADD",
 	payload: 100	
 });
@@ -118,4 +129,5 @@ store.dispatch({
 store.dispatch({
 	type: "SET_AGE",
 	payload: 30
-});
+});*/
+
