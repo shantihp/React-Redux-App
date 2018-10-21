@@ -11,6 +11,12 @@ const userReducer = (state = {
 				name : action.payload
 			};
 			break;
+		case "SET_NAME_FULFILLED" :
+			state = {
+				...state, // spread operator: returns the property of older property
+				name : action.payload
+			};
+			break;
 		case "SET_AGE" : 
 			state = {
 				...state, // spread operator: returns the property of older property
